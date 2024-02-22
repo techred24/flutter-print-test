@@ -44,31 +44,208 @@ class _PrintingWidgetState extends State<PrintingWidget> {
   Future<Ticket> _ticket(PaperSize paper) async {
     final ticket = Ticket(paper);
     ticket.text(
-      'Nueva Dependencia',
+      'SERVICIO METROPOLITANO',
       styles: PosStyles(
         align: PosAlign.center,
-        height: PosTextSize.size1,
+        height: PosTextSize.size8,
+        width: PosTextSize.size1,
+        bold: true
+      ));
+    ticket.text(
+      '***CIERRE DE JORNADA***',
+      styles: PosStyles(
+        align: PosAlign.center,
+        height: PosTextSize.size8,
         width: PosTextSize.size1,
         bold: true
       ));
       ticket.feed(1);
+      ticket.text(
+      'Ruta 102',
+      styles: PosStyles(
+        align: PosAlign.center,
+        height: PosTextSize.size8,
+        width: PosTextSize.size1,
+        bold: true
+      ));
       ticket.row([
         PosColumn(
-          text: '\$5.00 x 5',
+          text: 'UNIDAD: U-1573',
           width: 6
         ),
         PosColumn(
-          text: '\$24.00 x 10',
+          text: 'VUELTAS: 6',
           width: 6
         )
       ]);
+      ticket.text(
+      'OPERADOR: PEDRO VLADIMIR LARA RODRIGUEZ',
+      styles: PosStyles(
+        // align: PosAlign.left,
+        height: PosTextSize.size8,
+        width: PosTextSize.size1,
+        bold: true
+      ));
       ticket.feed(1);
-      ticket.row([
-        PosColumn(text: 'Total', width: 6, styles: PosStyles(bold: true)),
-        PosColumn(text: '\$265.00', width: 6, styles: PosStyles(bold: true))
-      ]);
+      ticket.text(
+      'OPERADOR: PEDRO VLADIMIR LARA RODRIGUEZ',
+      styles: PosStyles(
+        // align: PosAlign.left,
+        height: PosTextSize.size8,
+        width: PosTextSize.size1,
+        bold: true
+      ));
+      ticket.text(
+      'BOLETAJE:',
+      styles: PosStyles(
+        // align: PosAlign.left,
+        height: PosTextSize.size8,
+        width: PosTextSize.size1,
+        bold: true
+      ));
+      ticket.text(
+      '\$Tarifa = Cantidad',
+      styles: PosStyles(
+        // align: PosAlign.left,
+        height: PosTextSize.size8,
+        width: PosTextSize.size1,
+        bold: true
+      ));
+
+      ticket.text(
+      '\$7 = 0',
+      styles: PosStyles(
+        // align: PosAlign.left,
+        height: PosTextSize.size8,
+        width: PosTextSize.size1,
+        bold: true
+      ));
+      ticket.text(
+      '\$9 = 164',
+      styles: PosStyles(
+        // align: PosAlign.left,
+        height: PosTextSize.size8,
+        width: PosTextSize.size1,
+        bold: true
+      ));
+      ticket.text(
+      '\$11 = 187',
+      styles: PosStyles(
+        // align: PosAlign.left,
+        height: PosTextSize.size8,
+        width: PosTextSize.size1,
+        bold: true
+      ));
+      ticket.text(
+      '\$13 = 76',
+      styles: PosStyles(
+        // align: PosAlign.left,
+        height: PosTextSize.size8,
+        width: PosTextSize.size1,
+        bold: true
+      ));
+
+      ticket.text(
+      '---------------',
+      styles: PosStyles(
+        // align: PosAlign.left,
+        height: PosTextSize.size8,
+        width: PosTextSize.size1,
+        bold: true
+      ));
+
+      ticket.text(
+      'TOTAL DIF. BARRAS: 1',
+      styles: PosStyles(
+        // align: PosAlign.left,
+        height: PosTextSize.size8,
+        width: PosTextSize.size1,
+        bold: true
+      ));
+      ticket.text(
+      'TOTAL DIF. MINUTOS: 0',
+      styles: PosStyles(
+        // align: PosAlign.left,
+        height: PosTextSize.size8,
+        width: PosTextSize.size1,
+        bold: true
+      ));
+      ticket.text(
+      '---------------',
+      styles: PosStyles(
+        // align: PosAlign.left,
+        height: PosTextSize.size8,
+        width: PosTextSize.size1,
+        bold: true
+      ));
+      ticket.text(
+      'ABONOS: \$100.00',
+      styles: PosStyles(
+        // align: PosAlign.left,
+        height: PosTextSize.size8,
+        width: PosTextSize.size1,
+        bold: true
+      ));
+      ticket.text(
+      'FIANZAS: \$0.00',
+      styles: PosStyles(
+        // align: PosAlign.left,
+        height: PosTextSize.size8,
+        width: PosTextSize.size1,
+        bold: true
+      ));
+      ticket.text(
+      'DIFERENCIAS ULT. V.: \$0.00',
+      styles: PosStyles(
+        // align: PosAlign.left,
+        height: PosTextSize.size8,
+        width: PosTextSize.size1,
+        bold: true
+      ));
+      ticket.text(
+      'EXCED. DIESEL: \$0.00',
+      styles: PosStyles(
+        // align: PosAlign.left,
+        height: PosTextSize.size8,
+        width: PosTextSize.size1,
+        bold: true
+      ));
+
+      ticket.text(
+      '---------------',
+      styles: PosStyles(
+        // align: PosAlign.left,
+        height: PosTextSize.size8,
+        width: PosTextSize.size1,
+        bold: true
+      ));
+      ticket.feed(1);
+      ticket.text(
+      'DEPOSITO(+):',
+      styles: PosStyles(
+        // align: PosAlign.left,
+        height: PosTextSize.size8,
+        width: PosTextSize.size1,
+        bold: true
+      ));
+      ticket.text(
+      '\$669.00',
+      styles: PosStyles(
+        // align: PosAlign.left,
+        height: PosTextSize.size8,
+        width: PosTextSize.size1,
+        bold: true
+      ));
       ticket.feed(2);
-      ticket.text('¡Gracias!', styles: PosStyles(bold: true, align: PosAlign.center));
+      ticket.text('Estoy de acuerdo en que la informacion arriba señalada es producto de la actividad realizada como operador el dia de hoy.', styles: PosStyles(bold: true, align: PosAlign.center));
+      ticket.feed(3);
+      ticket.text('Nombre y Firma', styles: PosStyles(bold: true, height: PosTextSize.size8,
+        width: PosTextSize.size1, align: PosAlign.center));
+      ticket.feed(1);
+      ticket.text('FECHA Y HORA:', styles: PosStyles(bold: true, height: PosTextSize.size8,
+      width: PosTextSize.size1));
+      ticket.text('08/02/2024 12:40:56 a.m.', styles: PosStyles(bold: true, height: PosTextSize.size8,
+      width: PosTextSize.size1));
       ticket.feed(3);
     return ticket;
   } 
