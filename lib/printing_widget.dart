@@ -1,9 +1,9 @@
-import 'package:thermal_print/blue_print.dart';
-import 'package:esc_pos_utils/esc_pos_utils.dart';
+// import 'package:thermal_print/blue_print.dart';
+// import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
+import 'package:esc_pos_bluetooth/esc_pos_bluetooth.dart';
+import 'package:esc_pos_utils/esc_pos_utils.dart';
 
-FlutterBlue flutterBlue = FlutterBlue.instance;
 
 class PrintingWidget extends StatefulWidget {
   const PrintingWidget({Key key}) : super(key: key);
@@ -13,52 +13,84 @@ class PrintingWidget extends StatefulWidget {
 }
 
 class _PrintingWidgetState extends State<PrintingWidget> {
-  List<ScanResult> scanResult;
-
+  PrinterBluetoothManager _printerManager = PrinterBluetoothManager();
+  List<PrinterBluetooth> _devices = [];
+  String _deviceMsg;
   @override
   void initState() {
     super.initState();
-    findDevices();
+    initPrinter();
   }
-
-  void findDevices() {
-    flutterBlue.startScan(timeout: const Duration(seconds: 4));
-    flutterBlue.scanResults.listen((results) {
-      setState(() {
-        scanResult = results;
-      });
+  void initPrinter() {
+    _printerManager.startScan(Duration(seconds: 2));
+    _printerManager.scanResults.listen((val) {
+      print(val);
+      print('SE ENCONTRARON DISPOSITIVOS');
+      if(!mounted) return;
+      setState(() => _devices = val);
+      print(_devices);
+      if(_devices.isEmpty)
+      setState(() => _deviceMsg = 'No hay dispositivos');
     });
-    flutterBlue.stopScan();
   }
 
-  void printWithDevice(BluetoothDevice device) async {
-    await device.connect();
-    final gen = Generator(PaperSize.mm58, await CapabilityProfile.load());
-    final printer = BluePrint();
-    // printer.add(gen.qrcode('https://altospos.com'));
-    printer.add(gen.text('Hello'));
-    printer.add(gen.text('World', styles: const PosStyles(bold: true)));
-    printer.add(gen.feed(2));
-    print('IMPRIMIENDO ----');
-    await printer.printData(device);
-    device.disconnect();
+  Future<void> _startPrint(PrinterBluetooth printer) async {
+    _printerManager.selectPrinter(printer);
+    // final result = await _printerManager.printTicket(await _ticket(PaperSize.mm58));
+    await _printerManager.printTicket(await _ticket(PaperSize.mm58));
+    // print(result);
+    print('SE TERMINO DE IMPRIMIR');
   }
+  Future<Ticket> _ticket(PaperSize paper) async {
+    final ticket = Ticket(paper);
+    ticket.text(
+      'Nueva Dependencia',
+      styles: PosStyles(
+        align: PosAlign.center,
+        height: PosTextSize.size1,
+        width: PosTextSize.size1,
+        bold: true
+      ));
+      ticket.feed(1);
+      ticket.row([
+        PosColumn(
+          text: '\$5.00 x 5',
+          width: 6
+        ),
+        PosColumn(
+          text: '\$24.00 x 10',
+          width: 6
+        )
+      ]);
+      ticket.feed(1);
+      ticket.row([
+        PosColumn(text: 'Total', width: 6, styles: PosStyles(bold: true)),
+        PosColumn(text: '\$265.00', width: 6, styles: PosStyles(bold: true))
+      ]);
+      ticket.feed(2);
+      ticket.text('¡Gracias!', styles: PosStyles(bold: true, align: PosAlign.center));
+      ticket.feed(3);
+    return ticket;
+  } 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Bluetooth devices')),
-      body: ListView.separated(
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(scanResult[index].device.name),
-            subtitle: Text(scanResult[index].device.id.id),
-            onTap: () => printWithDevice(scanResult[index].device),
-          );
-        },
-        separatorBuilder: (context, index) => const Divider(),
-        itemCount: scanResult?.length ?? 0,
-      ),
+      body: _devices.isEmpty ? Center(child: Text(_deviceMsg ?? ''),) : 
+      ListView.builder(
+        itemCount: _devices.length,
+        itemBuilder: (c, i) {
+        return ListTile(
+          leading: Icon(Icons.print),
+          title: Text(_devices[i].name),
+          subtitle: Text(_devices[i].address),
+          onTap: () {
+            // print(_devices[i]);
+            _startPrint(_devices[i]);
+          },
+        );
+      }),
     );
   }
 }
