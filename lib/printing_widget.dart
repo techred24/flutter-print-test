@@ -36,9 +36,14 @@ class _PrintingWidgetState extends State<PrintingWidget> {
     final gen = Generator(PaperSize.mm58, await CapabilityProfile.load());
     final printer = BluePrint();
     // printer.add(gen.qrcode('https://altospos.com'));
-    printer.add(gen.text('Hello'));
-    printer.add(gen.text('World', styles: const PosStyles(bold: true)));
-    printer.add(gen.feed(2));
+    print(gen.text('123456789A'));
+    print('LO QUE DEVUELVE EL GENERADOR DE TEXTO');
+    print(gen.feed(1));
+    print('LO QUE DEVUELVE EL GENERADOR DE FEED');
+    printer.add(gen.text('123456789A'));
+    // printer.add(gen.text('AGAING'));
+    // printer.add(gen.text('World', styles: const PosStyles(bold: true)));
+    printer.add(gen.feed(1));
     print('IMPRIMIENDO ----');
     await printer.printData(device);
     device.disconnect();

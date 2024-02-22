@@ -15,6 +15,10 @@ class BluePrint {
   List<List<int>> getChunks() {
     final chunks = List<List<int>>.empty(growable: true);
     for (var i = 0; i < _data.length; i += chunkLen) {
+      print(chunkLen);
+      print('EL chunkLen-----------');
+      print(i);
+      print('LA VARIABLE I EN CADA ITERACION');
       chunks.add(_data.sublist(i, min(i + chunkLen, _data.length)));
     }
     return chunks;
@@ -24,12 +28,15 @@ class BluePrint {
     final data = getChunks();
     final characs = await _getCharacteristics(device);
     for (var i = 0; i < characs.length; i++) {
-      print(characs[i]);
-      print('CARACTERISTICA EN EL ARRAY');
-      print(characs[i].properties);
-      print('CARACTERISTICA PROPIEDADES');
+      // print(characs[i]);
+      // print('CARACTERISTICA EN EL ARRAY');
+      // print(characs[i].properties);
+      // print('CARACTERISTICA PROPIEDADES');
       print(data);
       print('LOS DATOS PA MANDAR');
+      // print(data[0].length);
+      // print('LONGITUD DEL ARRAY DE LOS ELEMENTOS');
+
       if (await _tryPrint(characs[i], data)) {
         break;
       }
