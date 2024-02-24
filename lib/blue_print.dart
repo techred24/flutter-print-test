@@ -9,14 +9,14 @@ class BluePrint {
   final _data = List<int>.empty(growable: true);
 
   void add(List<int> data) {
+    print(data);
+    print('AGREGANDO LOS DATOS DEL GENERADOR CON LA FUNCION');
     _data.addAll(data);
   }
 
   List<List<int>> getChunks() {
     final chunks = List<List<int>>.empty(growable: true);
     for (var i = 0; i < _data.length; i += chunkLen) {
-      print(chunkLen);
-      print('EL chunkLen-----------');
       print(i);
       print('LA VARIABLE I EN CADA ITERACION');
       chunks.add(_data.sublist(i, min(i + chunkLen, _data.length)));
@@ -27,46 +27,53 @@ class BluePrint {
   Future<void> printData(BluetoothDevice device) async {
     final data = getChunks();
     final characs = await _getCharacteristics(device);
-    for (var i = 0; i < characs.length; i++) {
-      // print(characs[i]);
-      // print('CARACTERISTICA EN EL ARRAY');
-      // print(characs[i].properties);
-      // print('CARACTERISTICA PROPIEDADES');
-      print(data);
-      print('LOS DATOS PA MANDAR');
-      // print(data[0].length);
-      // print('LONGITUD DEL ARRAY DE LOS ELEMENTOS');
-
-      if (await _tryPrint(characs[i], data)) {
-        break;
+    print(data);
+    print('LOS DATOS PA MANDAR CUANDO SE OBTIENEN LOS CHUNKS CON getChunks');
+    for (BluetoothCharacteristic charac in characs) {
+      if (charac.uuid.toString() == '49535343-8841-43f4-a8d4-ecbe34729bb3' && charac.properties.write) {
+        await _tryPrint(charac, data);
       }
     }
   }
 
-  Future<bool> _tryPrint(
+  Future<void> _tryPrint(
     BluetoothCharacteristic charac,
     List<List<int>> data,
   ) async {
-    for (var i = 0; i < data.length; i++) {
+    // [onCharacteristicWrite] uuid: 49535343-8841-43f4-a8d4-ecbe34729bb3 status: 0
+    List<int> dataList = data[0];
+    var len = dataList.length;
+    var size = 20;
+    List<List<int>> newList = [];
+    for(var i = 0; i< len; i+= size) {
+        var end = (i+size<len)?i+size:len;
+        newList.add(dataList.sublist(i,end));
+    }
+    for (List<int> list in newList) {
       try {
-        await charac.write(data[i]);
+        await charac.write(list);
+        print('IMPRIMIO UNA LISTA');
+        print(list);
+        print('LISTA');
+        print('LONGITUD DE LA LISTA: ${list.length}');
       } catch (e) {
-        return false;
+        print('ALGO FALLO AL INTETAR ESCRIBIR UNA LISTA PARTIDA');
       }
     }
-    return true;
   }
 
   Future<List<BluetoothCharacteristic>> _getCharacteristics(
     BluetoothDevice device,
   ) async {
     final services = await device.discoverServices();
+    print('LA LONGITUD DEL ARREGLO DE SERVICIOS SERVICIOS ${services.length}');
     final res = List<BluetoothCharacteristic>.empty(growable: true);
     for (var i = 0; i < services.length; i++) {
-      print(services[i].characteristics);
-      print('CARACTERISTICAS');
+      // print(services[i].characteristics);
+      // print('CARACTERISTICAS');
       res.addAll(services[i].characteristics);
     }
+    print('LA LONGITUD DEL ARREGLO DE CARACTERISTICAS: ${res.length}');
     return res;
   }
 }

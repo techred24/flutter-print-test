@@ -36,15 +36,35 @@ class _PrintingWidgetState extends State<PrintingWidget> {
     final gen = Generator(PaperSize.mm58, await CapabilityProfile.load());
     final printer = BluePrint();
     // printer.add(gen.qrcode('https://altospos.com'));
-    print(gen.text('123456789A'));
-    print('LO QUE DEVUELVE EL GENERADOR DE TEXTO');
-    print(gen.feed(1));
-    print('LO QUE DEVUELVE EL GENERADOR DE FEED');
+  //   var fila = gen.row([
+  //   PosColumn(
+  //     text: 'col3',
+  //     width: 3,
+  //     styles: PosStyles(align: PosAlign.center, underline: true),
+  //   ),
+  //   PosColumn(
+  //     text: 'col6',
+  //     width: 6,
+  //     styles: PosStyles(align: PosAlign.center, underline: true),
+  //   ),
+  //   PosColumn(
+  //     text: 'col3',
+  //     width: 3,
+  //     styles: PosStyles(align: PosAlign.center, underline: true),
+  //   ),
+  // ]);
+  //   printer.add(fila);
+  //   print(fila);
+  //   print('LO QUE CONTIENE LA FILA');
+  //   print(fila.length);
+  //   print('LONGITUD DE LA FILA');
+    // printer.add(fila);
     printer.add(gen.text('123456789A'));
+    // printer.add(gen.text('IMPRIMIENDO'));
+    // printer.add(gen.text('VARIAS COSAS A LA VEZ'));
     // printer.add(gen.text('AGAING'));
-    // printer.add(gen.text('World', styles: const PosStyles(bold: true)));
+    // printer.add(gen.text('LINEA APLICANDO ESTILOS', styles: const PosStyles(bold: true)));
     printer.add(gen.feed(1));
-    print('IMPRIMIENDO ----');
     await printer.printData(device);
     device.disconnect();
   }
