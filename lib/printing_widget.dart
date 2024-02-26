@@ -25,6 +25,7 @@ class _PrintingWidgetState extends State<PrintingWidget> {
     flutterBlue.startScan(timeout: const Duration(seconds: 4));
     flutterBlue.scanResults.listen((results) {
       setState(() {
+        // device.id.id
         scanResult = results;
       });
     });
@@ -36,7 +37,7 @@ class _PrintingWidgetState extends State<PrintingWidget> {
     final gen = Generator(PaperSize.mm58, await CapabilityProfile.load());
     final printer = BluePrint();
     // printer.add(gen.qrcode('https://altospos.com'));
-  //   var fila = gen.row([
+  //   printer.add(gen.row([
   //   PosColumn(
   //     text: 'col3',
   //     width: 3,
@@ -52,19 +53,43 @@ class _PrintingWidgetState extends State<PrintingWidget> {
   //     width: 3,
   //     styles: PosStyles(align: PosAlign.center, underline: true),
   //   ),
-  // ]);
-  //   printer.add(fila);
-  //   print(fila);
-  //   print('LO QUE CONTIENE LA FILA');
-  //   print(fila.length);
-  //   print('LONGITUD DE LA FILA');
-    // printer.add(fila);
-    printer.add(gen.text('123456789A'));
-    // printer.add(gen.text('IMPRIMIENDO'));
-    // printer.add(gen.text('VARIAS COSAS A LA VEZ'));
-    // printer.add(gen.text('AGAING'));
-    // printer.add(gen.text('LINEA APLICANDO ESTILOS', styles: const PosStyles(bold: true)));
+  // ]));
     printer.add(gen.feed(1));
+    printer.add(gen.text('SERVICIO METROPOLITANO', styles: const PosStyles(bold: true, align: PosAlign.center)));
+    printer.add(gen.text('***CIERRE DE JORNADA***', styles: const PosStyles(bold: true, align: PosAlign.center)));
+    printer.add(gen.feed(1));
+    printer.add(gen.text('Ruta 102', styles: const PosStyles(bold: true, align: PosAlign.center)));
+    printer.add(gen.feed(1));
+    printer.add(gen.text('UNIDAD: U-1573   VUELTAS: 6'));
+    printer.add(gen.text('OPERADOR: PEDRO VLADIMIR LARA RODRIGUEZ'));
+    printer.add(gen.feed(1));
+    printer.add(gen.text('BOLETAJE'));
+    printer.add(gen.text('\$Tarifa = Cantidad'));
+    printer.add(gen.text('\$7.00 = 0'));
+    printer.add(gen.text('\$9.00 = 164'));
+    printer.add(gen.text('\$11.00 = 187'));
+    printer.add(gen.text('\$13.00 = 76'));
+    printer.add(gen.text('-------------------'));
+    printer.add(gen.text('TOTAL DIF. BARRAS: 1'));
+    printer.add(gen.text('TOTAL DIF. MINUTOS: 0'));
+    printer.add(gen.text('-------------------'));
+    printer.add(gen.text('ABONOS: \$100.00'));
+    printer.add(gen.text('FIANZAS: \$0.00'));
+    printer.add(gen.text('DIFERENCIAS ULT. V.: \$0.00'));
+    printer.add(gen.text('EXCED. DIESEL: \$0.00'));
+    printer.add(gen.text('-------------------'));
+    printer.add(gen.feed(1));
+    printer.add(gen.text('DEPOSITO(+):'));
+    printer.add(gen.text('\$669.00'));
+    printer.add(gen.feed(2));
+    printer.add(gen.text('Estoy de acuerdo en que la informacion arriba senalada es producto de la actividad realizada como operador el dia de hoy.'));
+    printer.add(gen.feed(4));
+    printer.add(gen.text('Nombre y Firma', styles: const PosStyles(align: PosAlign.center)));
+    printer.add(gen.feed(1));
+    printer.add(gen.text('FECHA HORA:'));
+    printer.add(gen.text('08/02/2024 12:40:56 a.m.'));
+    printer.add(gen.feed(4));
+
     await printer.printData(device);
     device.disconnect();
   }
